@@ -13,7 +13,7 @@ class Login extends Component {
                     <input type="text" onChange={this.handleChange} value={this.state.text} />
                     <button type="submit">Log In</button>
                 </form>
-            )
+            );
         }
 
         return (
@@ -21,7 +21,7 @@ class Login extends Component {
                 <label>{this.props.username}'s Feast Finder</label>
                 <button type="submit">Log Out</button>
             </form>
-        )
+        );
     }
 
     handleChange(e) {
@@ -33,12 +33,12 @@ class Login extends Component {
         if (this.state.text.length === 0) {
             return;
         }
-        this.props.login(this.state.text)
+        this.props.login(this.state.text);
     }
 
     handleLogOut(e) {
         e.preventDefault();
-        this.props.logout()
+        this.props.logout();
     }
 }
 

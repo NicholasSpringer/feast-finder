@@ -14,7 +14,7 @@ class IngredientList extends Component {
                     <button type="submit">Add</button>
                 </form>
                 <div class="ingredient-grid">
-                    {this.props.ingredients.keys().map(ingr => (
+                    {this.props.ingredients.keys().map(ingrId => (
                         <div class={`ingredient-box ${ingredients[ingr].selected ? "ingredient-active" : "ingredient-inactive"}`}
                             onClick={(e) => this.handleToggleIngredient(e, ingr)}>
                             <span>{ingr}</span>
@@ -23,7 +23,7 @@ class IngredientList extends Component {
                     ))}
                 </div>
             </div>
-        )
+        );
     }
 
     handleChange(e) {
@@ -37,17 +37,13 @@ class IngredientList extends Component {
         this.props.addIngredient(this.state.text);
     }
 
-    handleToggleIngredient(e, ingr) {
-        if(this.props.ingredients[ingr].selected) {
-            this.props.setIngredient(ingr, false);
-        } else {
-            this.props.setIngredient(ingr, true);
-        }
+    handleToggleIngredient(e, ingrId) {
+        this.props.toggleIngredient(ingrId);
     }
 
-    handleDelIngredient(e, ingr) {
+    handleDelIngredient(e, ingrId) {
         e.stopPropogation();
-        this.props.delIngredient(ingr)
+        this.props.delIngredient(ingrId);
     }
 }
 
