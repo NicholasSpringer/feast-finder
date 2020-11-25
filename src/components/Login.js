@@ -10,7 +10,7 @@ class Login extends Component {
             return (
                 <form class="form-inline" onSubmit={this.handleLogIn}>
                     <label>Username:</label>
-                    <input type="text" onChange={this.handleChange} value={this.state.text}/>
+                    <input type="text" onChange={this.handleChange} value={this.state.text} />
                     <button type="submit">Log In</button>
                 </form>
             )
@@ -18,8 +18,8 @@ class Login extends Component {
 
         return (
             <form class="form-inline" onSubmit={this.handleLogOut}>
-                    <label>{this.props.username}'s Feast Finder</label>
-                    <button type="submit">Log Out</button>
+                <label>{this.props.username}'s Feast Finder</label>
+                <button type="submit">Log Out</button>
             </form>
         )
     }
@@ -31,7 +31,7 @@ class Login extends Component {
     handleLogIn(e) {
         e.preventDefault();
         if (this.state.text.length === 0) {
-          return;
+            return;
         }
         this.props.login(this.state.text)
     }
