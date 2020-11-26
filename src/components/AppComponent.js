@@ -12,25 +12,28 @@ class AppComponent extends Component {
         this.logout = this.logout.bind(this);
     }
 
-    // TODO - add comments for each function
+    // add an ingredient to the active and available sets for a recipe
     activateRecipeIngr(recipeId, ingrId) {
         this.state.recipes[recipeId].active[ingrId] = true;
         this.state.recipes[recipeId].available[ingrId] = true;
     }
 
+    // remove an ingredient from active set for a recipe
     deactivateRecipeIngr(recipeId, ingrId) {
         delete this.state.recipes[recipeId].active[ingrId];
     }
 
+    // remove an ingredient from active and available sets for a recipe
     delRecipeIngr(recipeId, ingrId) {
         delete this.state.recipes[recipeId].active[ingrId];
         delete this.state.recipes[recipeId].available[ingrId];
         if (this.state.recipes[recipeId].available.keys().length === 0) {
-            // no more available ingredients in this recipe
+            // no more available ingredients in this recipe, delete the recipe
             delete this.state.recipes[recipeId];
         }
     }
 
+    // add an ingredient to state
     addIngredient(ingrId) {
         if (ingrId in this.state.ingredients) {
             return;
@@ -38,7 +41,7 @@ class AppComponent extends Component {
 
         this.state.ingredients[ingrId] = { active: true, recipes: [] };
 
-        fetch("http://localhost:9000")
+        fetch("http://localhost:9000/...")
             .then(res => {
                 recipeInfo = res.json();
                 for (recipeId in recipeInfo) {
@@ -56,6 +59,7 @@ class AppComponent extends Component {
         // TODO - post to server new ingredient if username is set
     }
 
+    // activate or deactivate ingredient
     toggleIngredient(ingrId) {
         var ingr = this.state.ingredients[ingrId];
         ingr.active = !ingr.active;
@@ -70,6 +74,7 @@ class AppComponent extends Component {
         }
     }
 
+    // delete ingredient from state
     delIngredient(ingrId) {
         var ingr = this.state.ingredients[ingrId];
         for (recipeId in ingr.recipeIds) {
