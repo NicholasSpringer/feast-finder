@@ -3,9 +3,15 @@ import React, { Component } from "react";
 class IngredientList extends Component {
     constructor(props) {
         super(props);
+        this.state = {}
+        this.handleChange = this.handleChange.bind(this);
+        this.handleAddIngredient = this.handleAddIngredient.bind(this);
+        this.handleDelIngredient = this.handleDelIngredient.bind(this);
+        this.handleToggleIngredient = this.handleToggleIngredient.bind(this);
     }
 
     render() {
+        var ingredients = this.props.ingredients;
         return (
             <div>
                 <form class="form-inline" onSubmit={this.handleAddIngredient}>
@@ -14,7 +20,7 @@ class IngredientList extends Component {
                     <button type="submit">Add</button>
                 </form>
                 <div class="ingredient-grid">
-                    {this.props.ingredients.keys().map(ingrId => (
+                    {Object.keys(ingredients).map(ingr => (
                         <div class={`ingredient-box ${ingredients[ingr].selected ? "ingredient-active" : "ingredient-inactive"}`}
                             onClick={(e) => this.handleToggleIngredient(e, ingr)}>
                             <span>{ingr}</span>
@@ -37,13 +43,13 @@ class IngredientList extends Component {
         this.props.addIngredient(this.state.text);
     }
 
-    handleToggleIngredient(e, ingrId) {
-        this.props.toggleIngredient(ingrId);
+    handleToggleIngredient(e, ingr) {
+        this.props.toggleIngredient(ingr);
     }
 
-    handleDelIngredient(e, ingrId) {
+    handleDelIngredient(e, ingr) {
         e.stopPropogation();
-        this.props.delIngredient(ingrId);
+        this.props.delIngredient(ingr);
     }
 }
 

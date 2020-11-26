@@ -1,11 +1,14 @@
 import React, { Component } from "react";
+import RecipeList from "./RecipeList"
+import IngredientList from "./IngredientList"
+import Login from "./Login"
 
 class AppComponent extends Component {
     constructor(props) {
         super(props);
         this.state = { ingredients: {}, recipes: {}, username: null };
         this.addIngredient = this.addIngredient.bind(this);
-        this.setIngredient = this.setIngredient.bind(this);
+        this.toggleIngredient = this.toggleIngredient.bind(this);
         this.delIngredient = this.delIngredient.bind(this);
 
         this.login = this.login.bind(this);
@@ -13,97 +16,136 @@ class AppComponent extends Component {
     }
 
     // add an ingredient to the active and available sets for a recipe
-    activateRecipeIngr(recipeId, ingrId) {
-        this.state.recipes[recipeId].active[ingrId] = true;
-        this.state.recipes[recipeId].available[ingrId] = true;
+    activateRecipeIngr(state, recipeId, ingr) {
+        state.recipes[recipeId].active[ingr] = true;
+        state.recipes[recipeId].available[ingr] = true;
     }
 
     // remove an ingredient from active set for a recipe
-    deactivateRecipeIngr(recipeId, ingrId) {
-        delete this.state.recipes[recipeId].active[ingrId];
+    deactivateRecipeIngr(state, recipeId, ingr) {
+        delete state.recipes[recipeId].active[ingr];
     }
 
     // remove an ingredient from active and available sets for a recipe
-    delRecipeIngr(recipeId, ingrId) {
-        delete this.state.recipes[recipeId].active[ingrId];
-        delete this.state.recipes[recipeId].available[ingrId];
-        if (this.state.recipes[recipeId].available.keys().length === 0) {
-            // no more available ingredients in this recipe, delete the recipe
-            delete this.state.recipes[recipeId];
+    delRecipeIngr(state, recipeId, ingr) {
+        delete state.recipes[recipeId].active[ingr];
+        delete state.recipes[recipeId].available[ingr];
+        if (Object.keys(state.recipes[recipeId].available).length === 0) {
+            delete state.recipes[recipeId];
         }
     }
 
     // add an ingredient to state
-    addIngredient(ingrId) {
-        if (ingrId in this.state.ingredients) {
-            return;
-        }
-
-        this.state.ingredients[ingrId] = { active: true, recipes: [] };
-
-        fetch("http://localhost:9000/...")
+    addIngredient(ingr) {
+        fetch(`http://localhost:9000/get-recipes?ingr=${ingr}`)
             .then(res => {
-                recipeInfo = res.json();
-                for (recipeId in recipeInfo) {
-                    if (recipeId in this.state.recipes) {
-                        // update existing recipe object
-                        this.activateRecipeIngr(recipeId, ingrId);
-                    } else {
-                        // create new recipe object, add current ingredient to active
-                        this.state.recipes[recipeId] = { info: recipeInfo[recipe], active: {}, available: {} };
-                        this.activateRecipeIngr(recipeId, ingrId);
+                this.setState(state => {
+                    var recipeInfo = res.json();
+                    for (var recipeId in recipeInfo) {
+                        if (recipeId in state.recipes) {
+                            // update existing recipe object
+                            this.activateRecipeIngr(state, recipeId, ingr);
+                        } else {
+                            // create new recipe object, add current ingredient to active
+                            state.recipes[recipeId] = { info: recipeInfo[recipeId], active: {}, available: {} };
+                            this.activateRecipeIngr(state, recipeId, ingr);
+                        }
                     }
-                }
-                this.state.ingredients[ingrId].recipes = res.json().keys();
+                    state.ingredients[ingr] = { active: true, recipes: Object.keys(res.json()) };
+                    if (state.username != null) {
+                        fetch("http://localhost:9000/add-ingredients", {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ username: state.username, ingredients: [ingr] })
+                        });
+                    }
+                    return state;
+                });
             });
-        // TODO - post to server new ingredient if username is set
     }
 
     // activate or deactivate ingredient
     toggleIngredient(ingrId) {
-        var ingr = this.state.ingredients[ingrId];
-        ingr.active = !ingr.active;
-        if (ingr.active) {
-            for (recipeId in ingr.recipeIds) {
-                this.activateRecipeIngr(recipeId, ingrId);
+        this.setState(state => {
+            var ingr = state.ingredients[ingrId];
+            ingr.active = !ingr.active;
+            if (ingr.active) {
+                for (var recipeId in ingr.recipeIds) {
+                    this.activateRecipeIngr(state, recipeId, ingrId);
+                }
+            } else {
+                for (recipeId in ingr.recipeIds) {
+                    this.deactivateRecipeIngr(state, recipeId, ingrId);
+                }
             }
-        } else {
-            for (recipeId in ingr.recipeIds) {
-                this.deactivateRecipeIngr(recipeId, ingrId);
-            }
-        }
+            return state
+        });
     }
 
     // delete ingredient from state
     delIngredient(ingrId) {
-        var ingr = this.state.ingredients[ingrId];
-        for (recipeId in ingr.recipeIds) {
-            this.delRecipeIngr(recipeId, ingrId);
-        }
-        delete this.state.ingredients[ingrId];
-        // TODO - post to server that ingredient is deleted if username is set
+        this.setState(state => {
+            var ingr = state.ingredients[ingrId];
+            for (var recipeId in ingr.recipeIds) {
+                this.delRecipeIngr(state, recipeId, ingrId);
+            }
+            delete state.ingredients[ingr];
+            if (state.username != null) {
+                fetch("http://localhost:9000/del-ingredient", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username: state.username, ingr: ingrId })
+                });
+            }
+        });
     }
 
     login(username) {
-        this.state.username = username
-        // TODO - query ingredient list from server and merge with current ingredients,
-        // post to server new ingredients
+        this.setState(state => {
+            state.username = username;
+            fetch("http://localhost:9000/add-ingredients", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(
+                    { username: username, ingredients: Object.keys(state.ingredients) }
+                )
+            });
+            return state;
+        });
+        fetch(`http://localhost:9000/get-ingredients?username=${username}`)
+            .then(res => {
+                this.setState(state => {
+                    for (var ingr in res.ingredients) {
+                        this.addIngredient(state, ingr);
+                        this.toggleIngredient(state, ingr);
+                    }
+                    return state;
+                });
+            });
     }
 
     logout() {
-        this.state.username = null
+        this.setState(state => {
+            state.username = null;
+        });
     }
 
     render() {
         return (
-            <div class="horiz-container">
+            <div class="horiz-container" >
                 <div class="vert-container">
                     <Login username={this.state.username}
                         login={this.login}
                         logout={this.logout}></Login>
                     <IngredientList ingredients={this.state.ingredients}
                         addIngredient={this.addIngredient}
-                        setIngredient={this.setIngredient}
+                        toggleIngredient={this.toggleIngredient}
                         delIngredient={this.delIngredient}></IngredientList>
                 </div>
                 <RecipeList recipes={this.state.recipes}></RecipeList>

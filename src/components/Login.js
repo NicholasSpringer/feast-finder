@@ -3,6 +3,10 @@ import React, { Component } from "react";
 class Login extends Component {
     constructor(props) {
         super(props);
+        this.state = {}
+        this.handleChange = this.handleChange.bind(this);
+        this.handleLogIn = this.handleLogIn.bind(this);
+        this.handleLogOut = this.handleLogOut.bind(this);
     }
 
     render() {
