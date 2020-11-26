@@ -4,7 +4,7 @@ class RecipeList extends Component {
     render() {
         var recipes = this.props.recipes;
         return (
-            <div class="ingredient-list">
+            <div className="recipe-list">
                 {Object.keys(recipes).filter( // filter by > 1 active ingredient
                     rId => recipes[rId].active.keys.length > 0
                 ).sort( // sort by num active ingredients
@@ -16,7 +16,7 @@ class RecipeList extends Component {
                             <p>{recipes[rId].info.description}</p>
                             <div>{recipes[rId].ingredients.map(
                                 ingr => (
-                                    <div class={"ingredient-box" +
+                                    <div className={"ingredient-box" +
                                         `${recipes[rId].ingredients[ingr].selected ? "ingredient-active" : "ingredient-inactive"}`}>
                                         <span>{ingr}</span>
                                     </div>

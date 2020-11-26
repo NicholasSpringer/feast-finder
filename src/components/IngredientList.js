@@ -3,7 +3,7 @@ import React, { Component } from "react";
 class IngredientList extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {text: ""}
         this.handleChange = this.handleChange.bind(this);
         this.handleAddIngredient = this.handleAddIngredient.bind(this);
         this.handleDelIngredient = this.handleDelIngredient.bind(this);
@@ -14,14 +14,14 @@ class IngredientList extends Component {
         var ingredients = this.props.ingredients;
         return (
             <div>
-                <form class="form-inline" onSubmit={this.handleAddIngredient}>
+                <form className="form-inline" onSubmit={this.handleAddIngredient}>
                     <label>Add Ingredient:</label>
                     <input type="text" onChange={this.handleChange} value={this.state.text} />
                     <button type="submit">Add</button>
                 </form>
-                <div class="ingredient-grid">
+                <div className="ingredient-grid">
                     {Object.keys(ingredients).map(ingr => (
-                        <div class={`ingredient-box ${ingredients[ingr].selected ? "ingredient-active" : "ingredient-inactive"}`}
+                        <div key = {`${ingr}`} className={`ingredient-box ${ingredients[ingr].selected ? "ingredient-active" : "ingredient-inactive"}`}
                             onClick={(e) => this.handleToggleIngredient(e, ingr)}>
                             <span>{ingr}</span>
                             <button onClick={(e) => this.handleDelIngredient(e, ingr)}></button>
@@ -37,10 +37,12 @@ class IngredientList extends Component {
     }
 
     handleAddIngredient(e) {
+        e.preventDefault();
         if (this.state.text.length === 0) {
             return;
         }
         this.props.addIngredient(this.state.text);
+        this.setState(state => {return {text: ""}})
     }
 
     handleToggleIngredient(e, ingr) {
@@ -48,7 +50,7 @@ class IngredientList extends Component {
     }
 
     handleDelIngredient(e, ingr) {
-        e.stopPropogation();
+        e.stopPropagation();
         this.props.delIngredient(ingr);
     }
 }

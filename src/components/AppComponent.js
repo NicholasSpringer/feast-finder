@@ -39,8 +39,8 @@ class AppComponent extends Component {
     addIngredient(ingr) {
         fetch(`http://localhost:9000/get-recipes?ingr=${ingr}`)
             .then(res => {
+                var recipeInfo = res.json();
                 this.setState(state => {
-                    var recipeInfo = res.json();
                     for (var recipeId in recipeInfo) {
                         if (recipeId in state.recipes) {
                             // update existing recipe object
@@ -51,7 +51,7 @@ class AppComponent extends Component {
                             this.activateRecipeIngr(state, recipeId, ingr);
                         }
                     }
-                    state.ingredients[ingr] = { active: true, recipes: Object.keys(res.json()) };
+                    state.ingredients[ingr] = { active: true, recipes: Object.keys(recipeInfo) };
                     if (state.username != null) {
                         fetch("http://localhost:9000/add-ingredients", {
                             method: 'POST',
@@ -101,11 +101,14 @@ class AppComponent extends Component {
                     body: JSON.stringify({ username: state.username, ingr: ingrId })
                 });
             }
+            return { ingredients: {}, recipes: {}, username: null };
         });
     }
 
     login(username) {
+        console.log("login start")
         this.setState(state => {
+            console.log("setting username")
             state.username = username;
             fetch("http://localhost:9000/add-ingredients", {
                 method: 'POST',
@@ -116,18 +119,24 @@ class AppComponent extends Component {
                     { username: username, ingredients: Object.keys(state.ingredients) }
                 )
             });
+            console.log("done with fetch")
             return state;
         });
+        
         fetch(`http://localhost:9000/get-ingredients?username=${username}`)
             .then(res => {
+                let ingredients = res.json().ingredients
+                console.log(ingredients)
                 this.setState(state => {
-                    for (var ingr in res.ingredients) {
+                    console.log("setting ingredients")
+                    for (var ingr in ingredients) {
                         this.addIngredient(state, ingr);
                         this.toggleIngredient(state, ingr);
                     }
                     return state;
                 });
             });
+
     }
 
     logout() {
@@ -138,8 +147,8 @@ class AppComponent extends Component {
 
     render() {
         return (
-            <div class="horiz-container" >
-                <div class="vert-container">
+            <div className="horiz-container" >
+                <div className="vert-container">
                     <Login username={this.state.username}
                         login={this.login}
                         logout={this.logout}></Login>
