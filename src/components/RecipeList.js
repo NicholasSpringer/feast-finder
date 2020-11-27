@@ -15,11 +15,11 @@ class RecipeList extends Component {
                         <div className="recipe-box" key={`${rId}`}>
                             <h2>{recipes[rId].info.title}</h2>
                             <p>{recipes[rId].info.description}</p>
-                            <div>{recipes[rId].info.ingredients.map(
+                            <div className="recipe-ingr-list">{recipes[rId].info.ingredients.map(
                                 ingr => (
-                                    <div key={`${ingr}`} className={`ingredient-box ${ingr in recipes[rId].active ? "ingredient-active" : ""}`}>
-                                        <span>{ingr}</span>
-                                    </div>
+                                    <span key={`${ingr}`} className={`recipe-ingr-box ${ingr in recipes[rId].active ? "recipe-ingr-active" : ""}`}>
+                                        {ingr}
+                                    </span>
                                 )
                             )}</div>
                         </div>

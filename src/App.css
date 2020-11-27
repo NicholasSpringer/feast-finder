@@ -5,6 +5,20 @@ body,
   height: 100%;
 }
 
+/* Fonts */
+body {
+    font-family: 'Nunito Sans', sans-serif;
+}
+
+label {
+    font-family: 'Nunito Sans', sans-serif;
+}
+
+/* Forms */
+input[type=text] {
+    padding: 5px 5px;
+}
+
 /* AppComponent */
 .vert-container {
   display: flex;
@@ -12,7 +26,7 @@ body,
   width: 30%;
   min-width: 300pt;
   height: 100%;
-  padding: 15pt;
+  padding: 20px;
   background-size: cover;
   background-color: bisque;
 }
@@ -30,6 +44,7 @@ form {
   height: 100%;
 }
 
+
 /* IngredientList */
 .form-inline {
   display: flex;
@@ -40,6 +55,7 @@ form {
 
 .ingredient-grid {
   display: flex;
+  margin-top: 20px;
   align-items: flex-start;
   flex-wrap: wrap;
   grid-template-columns: repeat(3, 1fr);
@@ -99,7 +115,35 @@ form {
 .recipe-list {
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  margin: 5px 0px 5px 0px;
+  width: 100%
 }
 
 .recipe-box {
+  background-color: white;
+  padding: 10px 10px 10px 10px;
+  width: 100%;
+  outline: 8px solid bisque;
+  user-select: none;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.recipe-ingr-list {
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+.recipe-ingr-box {
+    background-color: lightgray;
+    padding: 5pt;
+    margin: 5px;
+    border-radius: 10pt;
+    max-width: fit-content;
+    user-select: none;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.recipe-ingr-active {
+    background-color: rgba(240, 128, 128, 0.644);
 }

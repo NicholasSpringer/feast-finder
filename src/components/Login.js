@@ -22,7 +22,7 @@ class Login extends Component {
 
         return (
             <form className="form-inline" onSubmit={this.handleLogOut}>
-                <label>{this.props.username}'s Feast Finder</label>
+                <h3>{this.props.username}'s Feast Finder</h3>
                 <button type="submit">Log Out</button>
             </form>
         );
