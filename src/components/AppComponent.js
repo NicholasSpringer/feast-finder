@@ -15,53 +15,41 @@ class AppComponent extends Component {
         this.logout = this.logout.bind(this);
     }
 
-    // add an ingredient to the active and available sets for a recipe
-    activateRecipeIngr(state, recipeId, ingr) {
-        state.recipes[recipeId].active[ingr] = true;
-        state.recipes[recipeId].available[ingr] = true;
-    }
-
-    // remove an ingredient from active set for a recipe
-    deactivateRecipeIngr(state, recipeId, ingr) {
-        delete state.recipes[recipeId].active[ingr];
-    }
-
-    // remove an ingredient from active and available sets for a recipe
-    delRecipeIngr(state, recipeId, ingr) {
-        delete state.recipes[recipeId].active[ingr];
-        delete state.recipes[recipeId].available[ingr];
-        if (Object.keys(state.recipes[recipeId].available).length === 0) {
-            delete state.recipes[recipeId];
-        }
-    }
-
     // add an ingredient to state
-    addIngredient(ingr) {
-        fetch(`http://localhost:9000/get-recipes?ingr=${ingr}`)
-            .then(res => {
-                var recipeInfo = res.json();
+    addIngredient(ingrId, active) {
+        fetch(`http://localhost:9000/get-recipes?ingr=${ingrId}`)
+            .then(res => res.json()).then(newRecipesInfo => {
                 this.setState(state => {
-                    for (var recipeId in recipeInfo) {
-                        if (recipeId in state.recipes) {
-                            // update existing recipe object
-                            this.activateRecipeIngr(state, recipeId, ingr);
+                    let ingredients = { ...state.ingredients };
+                    let recipes = { ...state.recipes };
+                    for (let recipeId in newRecipesInfo) {
+                        var recipe;
+                        if (recipeId in recipes) {
+                            // copy existing recipe object
+                            recipe = { ...recipes[recipeId] }
                         } else {
-                            // create new recipe object, add current ingredient to active
-                            state.recipes[recipeId] = { info: recipeInfo[recipeId], active: {}, available: {} };
-                            this.activateRecipeIngr(state, recipeId, ingr);
+                            // create new recipe object
+                            recipe = { info: newRecipesInfo[recipeId], active: {}, available: {} };
                         }
+                        if (active) {
+                            recipe.active[ingrId] = true;
+                        }
+                        recipe.available[ingrId] = true;
+                        recipes[recipeId] = recipe;
                     }
-                    state.ingredients[ingr] = { active: true, recipes: Object.keys(recipeInfo) };
+                    ingredients[ingrId] = { active: active, recipeIds: Object.keys(newRecipesInfo) };
+
                     if (state.username != null) {
+                        // add ingredient to current account in database
                         fetch("http://localhost:9000/add-ingredients", {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json'
                             },
-                            body: JSON.stringify({ username: state.username, ingredients: [ingr] })
+                            body: JSON.stringify({ username: state.username, ingredients: [ingrId] })
                         });
                     }
-                    return state;
+                    return { ingredients: ingredients, recipes: recipes };
                 });
             });
     }
@@ -69,29 +57,42 @@ class AppComponent extends Component {
     // activate or deactivate ingredient
     toggleIngredient(ingrId) {
         this.setState(state => {
-            var ingr = state.ingredients[ingrId];
+            let ingredients = { ...state.ingredients };
+            let ingr = { ...ingredients[ingrId] };
             ingr.active = !ingr.active;
-            if (ingr.active) {
-                for (var recipeId in ingr.recipeIds) {
-                    this.activateRecipeIngr(state, recipeId, ingrId);
+            ingredients[ingrId] = ingr;
+
+            let recipes = { ...state.recipes };
+            ingr.recipeIds.forEach(recipeId => {
+                let recipe = { ...recipes[recipeId] }
+                if (ingr.active) {
+                    recipe.active[ingrId] = true;
+                } else {
+                    delete recipe.active[ingrId]
                 }
-            } else {
-                for (recipeId in ingr.recipeIds) {
-                    this.deactivateRecipeIngr(state, recipeId, ingrId);
-                }
-            }
-            return state
+                recipes[recipeId] = recipe;
+            });
+            return { ingredients: ingredients, recipes: recipes }
         });
     }
 
     // delete ingredient from state
     delIngredient(ingrId) {
         this.setState(state => {
-            var ingr = state.ingredients[ingrId];
-            for (var recipeId in ingr.recipeIds) {
-                this.delRecipeIngr(state, recipeId, ingrId);
-            }
-            delete state.ingredients[ingr];
+            let ingredients = { ...state.ingredients };
+
+            let recipes = { ...state.recipes };
+            ingredients[ingrId].recipeIds.forEach(recipeId => {
+                let recipe = { ...recipes[recipeId] };
+                delete recipe.active[ingrId];
+                delete recipe.available[ingrId];
+                recipes[recipeId] = recipe;
+                if (Object.keys(recipe.available).length === 0) {
+                    delete recipes[recipeId];
+                }
+            });
+            delete ingredients[ingrId];
+
             if (state.username != null) {
                 fetch("http://localhost:9000/del-ingredient", {
                     method: 'POST',
@@ -101,15 +102,13 @@ class AppComponent extends Component {
                     body: JSON.stringify({ username: state.username, ingr: ingrId })
                 });
             }
-            return { ingredients: {}, recipes: {}, username: null };
+            return { ingredients: ingredients, recipes: recipes };
         });
     }
 
     login(username) {
-        console.log("login start")
         this.setState(state => {
-            console.log("setting username")
-            state.username = username;
+            // send current ingredients to database
             fetch("http://localhost:9000/add-ingredients", {
                 method: 'POST',
                 headers: {
@@ -119,21 +118,14 @@ class AppComponent extends Component {
                     { username: username, ingredients: Object.keys(state.ingredients) }
                 )
             });
-            console.log("done with fetch")
-            return state;
+            return { username: username };
         });
-        
+
+        // retrieve previously saved ingredients for user
         fetch(`http://localhost:9000/get-ingredients?username=${username}`)
-            .then(res => {
-                let ingredients = res.json().ingredients
-                console.log(ingredients)
-                this.setState(state => {
-                    console.log("setting ingredients")
-                    for (var ingr in ingredients) {
-                        this.addIngredient(state, ingr);
-                        this.toggleIngredient(state, ingr);
-                    }
-                    return state;
+            .then(res => res.json()).then(val => {
+                val.ingredients.forEach(ingrId => {
+                    this.addIngredient(ingrId, false);
                 });
             });
 
@@ -141,7 +133,7 @@ class AppComponent extends Component {
 
     logout() {
         this.setState(state => {
-            state.username = null;
+            return { ingredients: {}, recipes: {}, username: null };
         });
     }
 

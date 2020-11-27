@@ -6,18 +6,18 @@ class RecipeList extends Component {
         return (
             <div className="recipe-list">
                 {Object.keys(recipes).filter( // filter by > 1 active ingredient
-                    rId => recipes[rId].active.keys.length > 0
+                    rId => Object.keys(recipes[rId].active).length > 0
                 ).sort( // sort by num active ingredients
-                    (rId1, rId2) => recipes[rId2].active.keys.length - recipes[rId1].active.keys.length
+                    (rId1, rId2) => Object.keys(recipes[rId2].active).length
+                        - Object.keys(recipes[rId1].active).length
                 ).map( // map to recipe info cards
                     rId => (
-                        <div>
+                        <div className="recipe-box" key={`${rId}`}>
                             <h2>{recipes[rId].info.title}</h2>
                             <p>{recipes[rId].info.description}</p>
-                            <div>{recipes[rId].ingredients.map(
+                            <div>{recipes[rId].info.ingredients.map(
                                 ingr => (
-                                    <div className={"ingredient-box" +
-                                        `${recipes[rId].ingredients[ingr].selected ? "ingredient-active" : "ingredient-inactive"}`}>
+                                    <div key={`${ingr}`} className={`ingredient-box ${ingr in recipes[rId].active ? "ingredient-active" : ""}`}>
                                         <span>{ingr}</span>
                                     </div>
                                 )

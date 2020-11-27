@@ -21,10 +21,10 @@ class IngredientList extends Component {
                 </form>
                 <div className="ingredient-grid">
                     {Object.keys(ingredients).map(ingr => (
-                        <div key = {`${ingr}`} className={`ingredient-box ${ingredients[ingr].selected ? "ingredient-active" : "ingredient-inactive"}`}
+                        <div key={`${ingr}`} className={`ingredient-box ${ingredients[ingr].active ? "ingredient-active" : ""}`}
                             onClick={(e) => this.handleToggleIngredient(e, ingr)}>
                             <span>{ingr}</span>
-                            <button onClick={(e) => this.handleDelIngredient(e, ingr)}></button>
+                            <div className="x-button" onClick={(e) => this.handleDelIngredient(e, ingr)}>x</div>
                         </div>
                     ))}
                 </div>
@@ -41,7 +41,7 @@ class IngredientList extends Component {
         if (this.state.text.length === 0) {
             return;
         }
-        this.props.addIngredient(this.state.text);
+        this.props.addIngredient(this.state.text, true);
         this.setState(state => {return {text: ""}})
     }
 

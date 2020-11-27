@@ -1,21 +1,103 @@
-.ingredient-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 40px;
+html,
+body,
+#root {
+  margin: 0;
+  height: 100%;
 }
 
+/* AppComponent */
 .vert-container {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  min-width: 300pt;
+  height: 100%;
+  padding: 15pt;
+  background-size: cover;
+  background-color: bisque;
+}
+
+.vert-container > div,
+form {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
 }
 
 .horiz-container {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
+  height: 100%;
 }
 
+/* IngredientList */
+.form-inline {
+  display: flex;
+  flex-direction: row;
+  padding: 5pt;
+  gap: 10pt;
+}
+
+.ingredient-grid {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.ingredient-box {
+  background-color: lightgray;
+  padding: 5pt;
+  border-radius: 10pt;
+  max-width: fit-content;
+  user-select: none;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.ingredient-grid > .ingredient-box:hover {
+  background-color: rgb(177, 175, 175);
+  transition: 0.1s;
+  cursor: pointer;
+}
+
+.ingredient-active {
+  background-color: rgba(240, 128, 128, 0.644);
+}
+
+.ingredient-grid > .ingredient-active:hover {
+  background-color: lightcoral;
+}
+
+.x-button {
+  background-color: #fff;
+  margin-left: 5pt;
+  height: 15pt;
+  width: 15pt;
+  border-radius: 50%;
+  content: "x";
+  color: black;
+  border-style: solid;
+  border-color: rgb(98, 93, 93);
+  border-width: 2pt;
+  font-family: Arial, sans-serif;
+  font-weight: 1000;
+  font-size: 12pt;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.x-button:hover {
+  background-color: crimson;
+  transition: 0.1s;
+}
+
+/* RecipeList */
 .recipe-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 40px;
+  display: flex;
+  flex-direction: column;
+}
+
+.recipe-box {
 }

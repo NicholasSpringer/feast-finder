@@ -3,7 +3,7 @@ import React, { Component } from "react";
 class Login extends Component {
     constructor(props) {
         super(props);
-        this.state = {text: ""}
+        this.state = { text: "" }
         this.handleChange = this.handleChange.bind(this);
         this.handleLogIn = this.handleLogIn.bind(this);
         this.handleLogOut = this.handleLogOut.bind(this);
@@ -38,6 +38,7 @@ class Login extends Component {
             return;
         }
         this.props.login(this.state.text);
+        this.setState({ text: "" });
     }
 
     handleLogOut(e) {
