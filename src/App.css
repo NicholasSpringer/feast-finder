@@ -70,6 +70,7 @@ form {
 }
 
 .x-button {
+  user-select: none;
   background-color: #fff;
   margin-left: 5pt;
   height: 15pt;
@@ -90,6 +91,7 @@ form {
 
 .x-button:hover {
   background-color: crimson;
+  color: white;
   transition: 0.1s;
 }
 
