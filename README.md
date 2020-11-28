@@ -12,7 +12,7 @@ displays a login field or a logout button; and the recipe list, which displays r
 that include any of the active ingredients. The express backend is contained `source/server.js`.
 
 ## How to run the code
-To run the site, a GCP key is required to access our database of curated recipes (available upon request). 
+To run the site, a GCP key is required to access our database of curated recipes. 
 Save the key as `key.json` in the root directory of this repository. Then, run `npm run start-frontend` and 
 `npm run start-backend` in two separate terminals. The site will be available at `localhost:3000`
 
