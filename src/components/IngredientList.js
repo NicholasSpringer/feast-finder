@@ -16,7 +16,7 @@ class IngredientList extends Component {
             <div>
                 <form className="form-inline" onSubmit={this.handleAddIngredient}>
                     <label>Add Ingredient:</label>
-                    <input type="text" onChange={this.handleChange} value={this.state.text} />
+                    <input type="text" placeholder="e.g. butter" onChange={this.handleChange} value={this.state.text} />
                     <button type="submit">Add</button>
                 </form>
                 <div className="ingredient-grid">
