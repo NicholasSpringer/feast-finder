@@ -5,75 +5,34 @@ const PORT = 9000;
 var cors = require("cors");
 app.use(cors());
 
-app.get("/get-ingredients", (req, res) => {
-    res.json({ingredients: ["Rice", "Bun"]})
+const GCLOUD_PROJECT_ID = "feast-finder";
+const KEY_FILE_PATH = "./key.json";
+
+const { Firestore } = require('@google-cloud/firestore');
+const firestore = new Firestore(settings = {
+    projectId: GCLOUD_PROJECT_ID,
+    keyFilename: KEY_FILE_PATH
+});
+app.param('username', function (req, res, next, id) {
+    console.log("hello");
+    next()
+});
+
+app.get('/get-ingredients', (req, res) => {
+    firestore.collection("users")
+        .where("username", "==", req.query.username).get().then(querySnap => {
+            console.log(querySnap.docs);
+            if (querySnap.empty) {
+                res.json({ ingredients: [] });
+            } else {
+                let ingredients = querySnap.docs[0].get("ingredients");
+                res.json({ ingredients: ingredients });
+            }
+        });
 })
 
 app.get("/get-recipes", (req, res) => {
-    res.json(
-        {fried_rice: 
-            {title: "Fried Rice", description: "Lorem ipsum dolor sit amet, consectetur \
-            adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna \
-            aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris \
-            nisi ut aliquip ex ea commodo consequat.",
-             ingredients: ["Rice", "Eggs", "Chives"]},
-        burger: 
-            {title: "Cheeseburger", description: "Lorem ipsum dolor sit amet, consectetur \
-            adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna \
-            aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris \
-            nisi ut aliquip ex ea commodo consequat.", ingredients: ["Beef", "Salt", "Bun"]},
-        fried_rice1: 
-            {title: "Fried Rice", description: "Lorem ipsum dolor sit amet, consectetur \
-            adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna \
-            aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris \
-            nisi ut aliquip ex ea commodo consequat.", ingredients: ["Rice", "Eggs", "Chives"]},
-        burger1: 
-            {title: "Cheeseburger", description: "Lorem ipsum dolor sit amet, consectetur \
-            adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna \
-            aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris \
-            nisi ut aliquip ex ea commodo consequat.", ingredients: ["Beef", "Salt", "Bun"]},
-        fried_rice2: 
-            {title: "Fried Rice", description: "Lorem ipsum dolor sit amet, consectetur \
-            adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna \
-            aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris \
-            nisi ut aliquip ex ea commodo consequat.", ingredients: ["Rice", "Eggs", "Chives"]},
-        burger2: 
-            {title: "Cheeseburger", description: "Lorem ipsum dolor sit amet, consectetur \
-            adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna \
-            aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris \
-            nisi ut aliquip ex ea commodo consequat.", ingredients: ["Beef", "Salt", "Bun"]},
-        fried_rice3: 
-            {title: "Fried Rice", description: "Lorem ipsum dolor sit amet, consectetur \
-            adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna \
-            aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris \
-            nisi ut aliquip ex ea commodo consequat.", ingredients: ["Rice", "Eggs", "Chives"]},
-        burger3: 
-            {title: "Cheeseburger", description: "Lorem ipsum dolor sit amet, consectetur \
-            adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna \
-            aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris \
-            nisi ut aliquip ex ea commodo consequat.", ingredients: ["Beef", "Salt", "Bun"]},
-        fried_rice4: 
-            {title: "Fried Rice", description: "Lorem ipsum dolor sit amet, consectetur \
-            adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna \
-            aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris \
-            nisi ut aliquip ex ea commodo consequat.", ingredients: ["Rice", "Eggs", "Chives"]},
-        burger4: 
-            {title: "Cheeseburger", description: "Lorem ipsum dolor sit amet, consectetur \
-            adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna \
-            aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris \
-            nisi ut aliquip ex ea commodo consequat.", ingredients: ["Beef", "Salt", "Bun"]},
-        fried_rice5: 
-            {title: "Fried Rice", description: "Lorem ipsum dolor sit amet, consectetur \
-            adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna \
-            aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris \
-            nisi ut aliquip ex ea commodo consequat.", ingredients: ["Rice", "Eggs", "Chives"]},
-        burger5: 
-            {title: "Cheeseburger", description: "Lorem ipsum dolor sit amet, consectetur \
-            adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna \
-            aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris \
-            nisi ut aliquip ex ea commodo consequat.", ingredients: ["Beef", "Salt", "Bun"]},
-        }
-    )
+
 })
 
 app.post("/add-ingredients", (req, res) => {
