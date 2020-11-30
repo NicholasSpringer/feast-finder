@@ -4,6 +4,8 @@ what to make. Simply put in the ingredients that you have available, and
 we will present you with a list of curated, delicious recipes (no instructions for now) that you might
 be able to make. Logging in will save your ingredients for future browsing.
 
+![Demo Screenshot](https://github.com/NicholasSpringer/feast-finder/blob/main/demo.png)
+
 ## Structure
 The react app consists of 4 components located in `src/components`: the app component, which acts as an outer
 container and contains most of the state of the app; the ingredient list, which 
