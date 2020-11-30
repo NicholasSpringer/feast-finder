@@ -141,6 +141,7 @@ class AppComponent extends Component {
         return (
             <div className="horiz-container" >
                 <div className="vert-container">
+                    <h2>Feast Finder</h2>
                     <Login username={this.state.username}
                         login={this.login}
                         logout={this.logout}></Login>
@@ -149,7 +150,7 @@ class AppComponent extends Component {
                         toggleIngredient={this.toggleIngredient}
                         delIngredient={this.delIngredient}></IngredientList>
                 </div>
-                <RecipeList recipes={this.state.recipes}></RecipeList>
+            <RecipeList recipes={this.state.recipes}></RecipeList>
             </div>
         )
     }

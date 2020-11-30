@@ -15,9 +15,8 @@ class IngredientList extends Component {
         return (
             <div>
                 <form className="form-inline" onSubmit={this.handleAddIngredient}>
-                    <label>Add Ingredient:</label>
+                    <label>Add Ingredient: </label>
                     <input type="text" placeholder="e.g. butter" onChange={this.handleChange} value={this.state.text} />
-                    <button type="submit">Add</button>
                 </form>
                 <div className="ingredient-grid">
                     {Object.keys(ingredients).map(ingr => (
@@ -41,7 +40,7 @@ class IngredientList extends Component {
         if (this.state.text.length === 0) {
             return;
         }
-        this.props.addIngredient(this.state.text, true);
+        this.props.addIngredient(this.state.text.toLowerCase(), true);
         this.setState(state => {return {text: ""}})
     }
 

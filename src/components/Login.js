@@ -13,7 +13,7 @@ class Login extends Component {
         if (this.props.username == null) {
             return (
                 <form className="form-inline" onSubmit={this.handleLogIn}>
-                    <label>Username:</label>
+                    <label>Username: </label>
                     <input type="text" onChange={this.handleChange} value={this.state.text} />
                     <button type="submit">Log In</button>
                 </form>
@@ -22,7 +22,7 @@ class Login extends Component {
 
         return (
             <form className="form-inline" onSubmit={this.handleLogOut}>
-                <h3>{this.props.username}'s Feast Finder</h3>
+                <label>Welcome, {this.props.username}.</label>
                 <button type="submit">Log Out</button>
             </form>
         );
