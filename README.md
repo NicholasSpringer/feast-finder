@@ -1,4 +1,4 @@
-# FeastFinder
+# FeastFinder 🍱
 FeastFinder is a webapp that helps people find new recipes, especially useful when
 they don't know what to make. Simply put in the ingredients that you have available,
 and we will present you with a list of recipes, sorted by relevance, that you might
