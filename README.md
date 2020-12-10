@@ -11,7 +11,7 @@ The react app consists of 4 components located in `src/components`: the app comp
 container and contains most of the state of the app; the ingredient list, which 
 displays the ingredients that the user has inputted; the login component, which either
 displays a login field or a logout button; and the recipe list, which displays recipes
-that include any of the active ingredients. The express backend is contained `source/server.js`.
+that include any of the active ingredients. The express backend is contained in `source/server.js`.
 
 ## How to run the code
 To run the site, a GCP key is required (available upon request) to access our database of curated recipes. 
