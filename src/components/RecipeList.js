@@ -13,11 +13,13 @@ class RecipeList extends Component {
                 ).map( // map to recipe info cards
                     rId => (
                         <div className="recipe-box" key={`${rId}`}>
-                            <h2>{recipes[rId].info.title}</h2>
+                            <div className="recipe-title-banner">
+                            <div className="recipe-title">{recipes[rId].info.title}</div>
+                            </div>
                             <p>{recipes[rId].info.description}</p>
                             <div className="recipe-ingr-list">{recipes[rId].info.ingredients.map(
                                 ingr => (
-                                    <span key={`${ingr}`} className={`recipe-ingr-box ${ingr in recipes[rId].active ? "recipe-ingr-active" : ""}`}>
+                                    <span key={`${ingr}`} className={`ingredient-box ${ingr in recipes[rId].active ? "ingredient-active" : ""}`}>
                                         {ingr}
                                     </span>
                                 )
