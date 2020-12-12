@@ -20,11 +20,24 @@ label {
 }
 
 /* Forms */
-input[type="text"] {
-  padding: 5px 5px;
+
+.form-inline {
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+    gap: 10px;
+}
+
+.form-inline label {
+    margin: 5px 10px 5px 0;
+}  
+
+input[type=text] {
+    padding: 5px 5px;
 }
 
 /* AppComponent */
+
 .vert-container {
   display: flex;
   flex-direction: column;
@@ -51,12 +64,6 @@ form {
 }
 
 /* IngredientList */
-.form-inline {
-  display: flex;
-  flex-direction: row;
-  padding: 5pt;
-  gap: 10pt;
-}
 
 .ingredient-grid {
   margin-top: 20px;
@@ -71,6 +78,7 @@ form {
   user-select: none;
   background-color: lightgray;
   padding: 5pt;
+  margin: 5px;
   border-radius: 10pt;
   max-width: fit-content;
 }
