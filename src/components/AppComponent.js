@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import RecipeList from "./RecipeList"
 import IngredientList from "./IngredientList"
 import Login from "./Login"
+import logo from "../logo.svg"
 
 class AppComponent extends Component {
     constructor(props) {
@@ -139,18 +140,24 @@ class AppComponent extends Component {
 
     render() {
         return (
-            <div className="horiz-container" >
-                <div className="vert-container">
-                    <h2>Feast Finder</h2>
-                    <Login username={this.state.username}
-                        login={this.login}
-                        logout={this.logout}></Login>
-                    <IngredientList ingredients={this.state.ingredients}
-                        addIngredient={this.addIngredient}
-                        toggleIngredient={this.toggleIngredient}
-                        delIngredient={this.delIngredient}></IngredientList>
+            <div className="overall-vert-container">
+                <div className="header">
+                    <img className="logo" src={logo} alt="Logo"></img>
+                    <div className="login">
+                        <Login username={this.state.username}
+                                login={this.login}
+                                logout={this.logout}></Login>
+                    </div>
                 </div>
-            <RecipeList recipes={this.state.recipes}></RecipeList>
+                <div className="horiz-container">
+                    <div className="ingredient-list">
+                        <IngredientList ingredients={this.state.ingredients}
+                            addIngredient={this.addIngredient}
+                            toggleIngredient={this.toggleIngredient}
+                            delIngredient={this.delIngredient}></IngredientList>
+                    </div>
+                    <RecipeList recipes={this.state.recipes}></RecipeList>
+                </div>
             </div>
         )
     }

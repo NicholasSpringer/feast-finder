@@ -3,7 +3,7 @@ body,
 #root {
   height: 100%;
   width: 100vw;
-  overscroll-behavior: none;
+  overscroll-behavior: contain;
 }
 
 /* ::-webkit-scrollbar { 
@@ -21,23 +21,72 @@ label {
 
 /* Forms */
 
-.form-inline {
-    display: flex;
-    flex-direction: row;
+.ingredient-form {
+    display: inline-block;
     padding: 10px;
     gap: 10px;
 }
 
-.form-inline label {
-    margin: 5px 10px 5px 0;
+.ingredient-form label {
+    margin: auto;
+    text-align: center;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: row;
+    height: 30%;
+    padding: 10px;
+    gap: 10px;
+    float: left;
+}
+
+.login-form label {
+    margin: auto;
 }  
 
 input[type=text] {
     padding: 5px 5px;
+    border-radius: 7px;
+}
+
+/* Login */
+.logout-button {
+    border-radius: 7px;
+}
+
+.login {
+    float: right;
 }
 
 /* AppComponent */
 
+.logo {
+    width: 25%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.overall-vert-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 1000pt;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 20px;
+  background-size: cover;
+  gap: 5px;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    position: relative;
+    background: rgb(252, 220, 220);
+}
+/* 
 .vert-container {
   display: flex;
   flex-direction: column;
@@ -48,7 +97,7 @@ input[type=text] {
   padding: 20px;
   background-size: cover;
   background-color: bisque;
-}
+} */
 
 .vert-container > div,
 form {
@@ -61,9 +110,14 @@ form {
   display: flex;
   flex-direction: row;
   height: 100%;
+  gap: 15px;
 }
 
 /* IngredientList */
+
+.ingreident-list {
+    width: 30%;
+}
 
 .ingredient-grid {
   margin-top: 20px;
@@ -157,7 +211,7 @@ form {
   width: 100%;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
-  background-color: rgb(230, 227, 227);
+  background-color: rgba(201, 146, 146, 0.582);
   border-style: solid;
   border-width: 2px;
   border-bottom-width: 4px;
@@ -165,9 +219,7 @@ form {
 }
 
 .recipe-title {
-  background-color: #e62424ab;
-  color:rgb(29, 29, 29);
-  max-width: fit-content;
+  color: black;
   padding: 7px;
   padding-left: 15px;
   padding-right: 10px;

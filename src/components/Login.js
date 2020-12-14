@@ -12,18 +12,17 @@ class Login extends Component {
     render() {
         if (this.props.username == null) {
             return (
-                <form className="form-inline" onSubmit={this.handleLogIn}>
-                    <label>Username: </label>
-                    <input type="text" onChange={this.handleChange} value={this.state.text} />
-                    <button type="submit">Log In</button>
+                <form className="login-form" onSubmit={this.handleLogIn}>
+                    <label>Login </label>
+                    <input type="text" placeholder="Username" onChange={this.handleChange} value={this.state.text} />
                 </form>
             );
         }
 
         return (
-            <form className="form-inline" onSubmit={this.handleLogOut}>
+            <form className="login-form" onSubmit={this.handleLogOut}>
                 <label>Welcome, {this.props.username}.</label>
-                <button type="submit">Log Out</button>
+                <button className="logout-button" type="submit">Log Out</button>
             </form>
         );
     }
