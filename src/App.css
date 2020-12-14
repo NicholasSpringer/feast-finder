@@ -35,15 +35,18 @@ label {
 .login-form {
     display: flex;
     flex-direction: row;
-    height: 30%;
+    position: absolute;
+    left: 15px;
+    top: 15px;
     padding: 10px;
+    height: 25px;
     gap: 10px;
     float: left;
 }
 
 .login-form label {
-    margin: auto;
-}  
+    margin-top: auto;
+} 
 
 input[type=text] {
     padding: 5px 5px;
@@ -62,9 +65,10 @@ input[type=text] {
 /* AppComponent */
 
 .logo {
-    width: 25%;
-    margin-left: auto;
-    margin-right: auto;
+    width: 20%;
+    position: relative; 
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .overall-vert-container {
@@ -74,17 +78,17 @@ input[type=text] {
   min-width: 1000pt;
   height: 100%;
   box-sizing: border-box;
-  padding: 20px;
   background-size: cover;
   gap: 5px;
 }
 
 .header {
     display: flex;
+    padding: 10px;
     flex-direction: row;
     width: 100%;
-    position: relative;
     background: rgb(252, 220, 220);
+    box-sizing: border-box;
 }
 /* 
 .vert-container {
@@ -115,8 +119,9 @@ form {
 
 /* IngredientList */
 
-.ingreident-list {
-    width: 30%;
+.ingredient-list {
+    width: 25%;
+    padding: 15px;
 }
 
 .ingredient-grid {
