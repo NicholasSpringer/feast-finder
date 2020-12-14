@@ -1,9 +1,6 @@
 const express = require("express");
 const app = express();
-const PORT = 9000;
-
-var cors = require("cors");
-app.use(cors());
+const PORT = 5000;
 
 const GCLOUD_PROJECT_ID = "feast-finder";
 const KEY_FILE_PATH = "./key.json";
@@ -12,6 +9,7 @@ const { Firestore } = require('@google-cloud/firestore');
 let settings = { projectId: GCLOUD_PROJECT_ID, keyFilename: KEY_FILE_PATH };
 const firestore = new Firestore(settings = settings);
 
+app.use(express.static('public'))
 app.use(express.json())
 
 // get ingredients in a user's account
@@ -25,7 +23,7 @@ app.get('/get-ingredients', (req, res) => {
                 res.json({ ingredients: ingredients });
             }
         });
-})
+});
 
 // get all recipes that contain given ingredient
 app.get("/get-recipes", (req, res) => {
@@ -37,11 +35,11 @@ app.get("/get-recipes", (req, res) => {
             })
             res.json(recipes);
         });
-})
+});
 
 // add any number of ingredients to user's account
 app.post("/add-ingredients", (req, res) => {
-    if (req.body.ingredients.length == 0) {
+    if (req.body.ingredients.length === 0) {
         res.status(200).send("OK");
         return;
     }
@@ -59,7 +57,7 @@ app.post("/add-ingredients", (req, res) => {
             }
             res.status(200).send("OK");
         });
-})
+});
 
 // delete a single ingredient from user's account
 app.post("/del-ingredient", (req, res) => {
@@ -72,8 +70,8 @@ app.post("/del-ingredient", (req, res) => {
             }
             res.status(200).send("OK");
         });
-})
+});
 
 app.listen(PORT, () => {
     console.log(`Listening at port ${PORT}`);
-})
+});

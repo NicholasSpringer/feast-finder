@@ -1,10 +1,12 @@
 import React, { Component } from "react";
+import styles from "./RecipeList.module.css"
+import ingrStyles from "./IngredientList.module.css"
 
 class RecipeList extends Component {
     render() {
         var recipes = this.props.recipes;
         return (
-            <div className="recipe-list">
+            <div className={styles["recipe-list"]}>
                 {Object.keys(recipes).filter( // filter by > 1 active ingredient
                     rId => Object.keys(recipes[rId].active).length > 0
                 ).sort( // sort by num active ingredients
@@ -12,14 +14,14 @@ class RecipeList extends Component {
                         - Object.keys(recipes[rId1].active).length
                 ).map( // map to recipe info cards
                     rId => (
-                        <div className="recipe-box" key={`${rId}`}>
-                            <div className="recipe-title-banner">
-                            <div className="recipe-title">{recipes[rId].info.title}</div>
+                        <div className={styles["recipe-box"]} key={`${rId}`}>
+                            <div className={styles["recipe-title-banner"]}>
+                            <div className={styles["recipe-title"]}>{recipes[rId].info.title}</div>
                             </div>
                             <p>{recipes[rId].info.description}</p>
-                            <div className="recipe-ingr-list">{recipes[rId].info.ingredients.map(
+                            <div className={styles["recipe-ingr-list"]}>{recipes[rId].info.ingredients.map(
                                 ingr => (
-                                    <span key={`${ingr}`} className={`ingredient-box ${ingr in recipes[rId].active ? "ingredient-active" : ""}`}>
+                                    <span key={`${ingr}`} className={`${ingrStyles["ingredient-box"]} ${ingr in recipes[rId].active ? ingrStyles["ingredient-active"] : ""}`}>
                                         {ingr}
                                     </span>
                                 )

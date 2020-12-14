@@ -6,8 +6,20 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+html,
+body,
+#root {
+  height: 100%;
+  width: 100vw;
+  overscroll-behavior: contain;
+  font-family: "Nunito Sans", sans-serif;
+}
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+label {
+  font-family: "Nunito Sans", sans-serif;
+}
+
+input[type=text] {
+    padding: 5px 5px;
+    border-radius: 7px;
 }

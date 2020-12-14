@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import styles from "./Login.module.css"
 
 class Login extends Component {
     constructor(props) {
@@ -12,18 +13,22 @@ class Login extends Component {
     render() {
         if (this.props.username == null) {
             return (
-                <form className="login-form" onSubmit={this.handleLogIn}>
-                    <label>Login </label>
-                    <input type="text" placeholder="Username" onChange={this.handleChange} value={this.state.text} />
-                </form>
+                <div className={styles["login"]}>
+                    <form className={styles["login-form"]} onSubmit={this.handleLogIn}>
+                        <label>Login </label>
+                        <input type="text" placeholder="Username" onChange={this.handleChange} value={this.state.text} />
+                    </form>
+                </div>
             );
         }
 
         return (
-            <form className="login-form" onSubmit={this.handleLogOut}>
-                <label>Welcome, {this.props.username}.</label>
-                <button className="logout-button" type="submit">Log Out</button>
-            </form>
+            <div className={styles["login"]}>
+                <form className={styles["login-form"]} onSubmit={this.handleLogOut}>
+                    <label>Welcome, {this.props.username}.</label>
+                    <button className={styles["logout-button"]} type="submit">Log Out</button>
+                </form>
+            </div>
         );
     }
 

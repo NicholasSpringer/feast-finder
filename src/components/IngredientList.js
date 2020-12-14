@@ -1,9 +1,11 @@
 import React, { Component } from "react";
+import styles from "./IngredientList.module.css"
+
 
 class IngredientList extends Component {
     constructor(props) {
         super(props);
-        this.state = {text: ""}
+        this.state = { text: "" }
         this.handleChange = this.handleChange.bind(this);
         this.handleAddIngredient = this.handleAddIngredient.bind(this);
         this.handleDelIngredient = this.handleDelIngredient.bind(this);
@@ -13,17 +15,17 @@ class IngredientList extends Component {
     render() {
         var ingredients = this.props.ingredients;
         return (
-            <div>
-                <form className="ingredient-form" onSubmit={this.handleAddIngredient}>
+            <div className={styles["ingredient-list"]}>
+                <form className={styles["ingredient-form"]} onSubmit={this.handleAddIngredient}>
                     <label>Add Ingredient </label>
                     <input type="text" placeholder="e.g. butter" onChange={this.handleChange} value={this.state.text} />
                 </form>
-                <div className="ingredient-grid">
+                <div className={styles["ingredient-grid"]}>
                     {Object.keys(ingredients).map(ingr => (
-                        <div key={`${ingr}`} className={`ingredient-box ${ingredients[ingr].active ? "ingredient-active" : ""}`}
+                        <div key={`${ingr}`} className={`${styles["ingredient-box"]} ${ingredients[ingr].active ? styles["ingredient-active"] : ""}`}
                             onClick={(e) => this.handleToggleIngredient(e, ingr)}>
                             <span>{ingr}</span>
-                            <div className="x-button" onClick={(e) => this.handleDelIngredient(e, ingr)}>x</div>
+                            <div className={styles["x-button"]} onClick={(e) => this.handleDelIngredient(e, ingr)}>x</div>
                         </div>
                     ))}
                 </div>
@@ -41,7 +43,7 @@ class IngredientList extends Component {
             return;
         }
         this.props.addIngredient(this.state.text.toLowerCase(), true);
-        this.setState(state => {return {text: ""}})
+        this.setState(state => { return { text: "" } })
     }
 
     handleToggleIngredient(e, ingr) {

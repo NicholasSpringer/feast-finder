@@ -1,0 +1,23 @@
+.logout-button {
+    border-radius: 7px;
+}
+
+.login {
+    float: right;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    left: 15px;
+    top: 15px;
+    padding: 10px;
+    height: 25px;
+    gap: 10px;
+    float: left;
+}
+
+.login-form label {
+    margin-top: auto;
+}

@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import RecipeList from "./RecipeList"
-import IngredientList from "./IngredientList"
-import Login from "./Login"
-import logo from "../logo.svg"
+import RecipeList from "./RecipeList";
+import IngredientList from "./IngredientList";
+import Login from "./Login";
+import logo from "../logo.svg";
+import styles from "./AppComponent.module.css";
 
 class AppComponent extends Component {
     constructor(props) {
@@ -18,7 +19,7 @@ class AppComponent extends Component {
 
     // add an ingredient to state
     addIngredient(ingrId, active) {
-        fetch(`http://localhost:9000/get-recipes?ingr=${ingrId}`)
+        fetch(`http://localhost:5000/get-recipes?ingr=${ingrId}`)
             .then(res => res.json()).then(newRecipesInfo => {
                 this.setState(state => {
                     let ingredients = { ...state.ingredients };
@@ -42,7 +43,7 @@ class AppComponent extends Component {
 
                     if (state.username != null) {
                         // add ingredient to current account in database
-                        fetch("http://localhost:9000/add-ingredients", {
+                        fetch("http://localhost:5000/add-ingredients", {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json'
@@ -95,7 +96,7 @@ class AppComponent extends Component {
             delete ingredients[ingrId];
 
             if (state.username != null) {
-                fetch("http://localhost:9000/del-ingredient", {
+                fetch("http://localhost:5000/del-ingredient", {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -110,7 +111,7 @@ class AppComponent extends Component {
     login(username) {
         this.setState(state => {
             // send current ingredients to database
-            fetch("http://localhost:9000/add-ingredients", {
+            fetch("http://localhost:5000/add-ingredients", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -123,7 +124,7 @@ class AppComponent extends Component {
         });
 
         // retrieve previously saved ingredients for user
-        fetch(`http://localhost:9000/get-ingredients?username=${username}`)
+        fetch(`http://localhost:5000/get-ingredients?username=${username}`)
             .then(res => res.json()).then(val => {
                 val.ingredients.forEach(ingrId => {
                     this.addIngredient(ingrId, false);
@@ -140,22 +141,18 @@ class AppComponent extends Component {
 
     render() {
         return (
-            <div className="overall-vert-container">
-                <div className="header">
-                    <img className="logo" src={logo} alt="Logo"></img>
-                    <div className="login">
-                        <Login username={this.state.username}
-                                login={this.login}
-                                logout={this.logout}></Login>
-                    </div>
+            <div className={styles["overall-vert-container"]}>
+                <div className={styles["header"]}>
+                    <img className={styles["logo"]} src={logo} alt="Logo"></img>
+                    <Login username={this.state.username}
+                        login={this.login}
+                        logout={this.logout}></Login>
                 </div>
-                <div className="horiz-container">
-                    <div className="ingredient-list">
-                        <IngredientList ingredients={this.state.ingredients}
-                            addIngredient={this.addIngredient}
-                            toggleIngredient={this.toggleIngredient}
-                            delIngredient={this.delIngredient}></IngredientList>
-                    </div>
+                <div className={styles["horiz-container"]}>
+                    <IngredientList ingredients={this.state.ingredients}
+                        addIngredient={this.addIngredient}
+                        toggleIngredient={this.toggleIngredient}
+                        delIngredient={this.delIngredient}></IngredientList>
                     <RecipeList recipes={this.state.recipes}></RecipeList>
                 </div>
             </div>

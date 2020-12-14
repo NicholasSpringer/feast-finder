@@ -1,0 +1,77 @@
+.ingredient-form {
+    display: inline-block;
+    padding: 10px;
+    gap: 10px;
+}
+
+.ingredient-form label {
+    margin: auto;
+    text-align: center;
+}
+
+.ingredient-list {
+    width: 25%;
+    padding: 15px;
+}
+
+.ingredient-grid {
+    margin-top: 20px;
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.ingredient-box {
+    user-select: none;
+    background-color: lightgray;
+    padding: 5pt;
+    margin: 5px;
+    border-radius: 10pt;
+    max-width: fit-content;
+}
+
+.ingredient-grid > .ingredient-box {
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.ingredient-grid > .ingredient-box:hover {
+    background-color: rgb(177, 175, 175);
+    transition: 0.1s;
+    cursor: pointer;
+}
+
+.ingredient-active {
+    background-color: rgba(240, 128, 128, 0.644);
+}
+
+.ingredient-grid > .ingredient-active:hover {
+    background-color: #eb5252be;
+}
+
+.x-button {
+    user-select: none;
+    background-color: #fff;
+    margin-left: 5pt;
+    height: 15pt;
+    width: 15pt;
+    border-radius: 50%;
+    content: "x";
+    color: black;
+    border-style: solid;
+    border-color: rgb(98, 93, 93);
+    border-width: 2pt;
+    font-family: Arial, sans-serif;
+    font-weight: 1000;
+    font-size: 12pt;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.x-button:hover {
+    background-color: crimson;
+    color: white;
+    transition: 0.1s;
+}
