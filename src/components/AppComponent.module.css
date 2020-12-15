@@ -9,10 +9,8 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    min-width: 1000pt;
     height: 100%;
     box-sizing: border-box;
-    background-size: cover;
     gap: 5px;
 }
 
@@ -36,18 +34,18 @@
   padding: 20px;
   background-size: cover;
   background-color: bisque;
-} */
+} 
 
 .vert-container > div,
 form {
     margin-left: auto;
     margin-right: auto;
     width: 100%;
-}
+}*/
 
 .horiz-container {
     display: flex;
     flex-direction: row;
-    height: 100%;
     gap: 15px;
+    overflow-y:hidden;
 }
