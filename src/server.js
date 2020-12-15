@@ -30,6 +30,8 @@ app.get('/api/get-ingredients', (req, res) => {
                 let ingredients = querySnap.docs[0].get("ingredients");
                 res.json({ ingredients: ingredients });
             }
+        }).catch((error) => {
+            console.error(error);
         });
 });
 
@@ -42,6 +44,8 @@ app.get("/api/get-recipes", (req, res) => {
                 recipes[docSnap.id] = docSnap.data();
             })
             res.json(recipes);
+        }).catch((error) => {
+            console.error(error);
         });
 });
 
@@ -64,6 +68,8 @@ app.post("/api/add-ingredients", (req, res) => {
                 )
             }
             res.status(200).send("OK");
+        }).catch((error) => {
+            console.error(error);
         });
 });
 
@@ -77,6 +83,8 @@ app.post("/api/del-ingredient", (req, res) => {
                 )
             }
             res.status(200).send("OK");
+        }).catch((error) => {
+            console.error(error);
         });
 });
 
