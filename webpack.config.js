@@ -1,4 +1,7 @@
+var webpack = require('webpack');
 const path = require('path');
+
+require('custom-env').env(true)
 
 module.exports = {
   entry: './src/index.js',
@@ -30,6 +33,9 @@ module.exports = {
           },
         ],
       },
-    ]
-  }
+    ],
+  },
+  plugins: [
+    new webpack.EnvironmentPlugin(["NODE_ENV", "API_HOST"])
+  ]
 };

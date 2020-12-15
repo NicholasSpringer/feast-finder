@@ -1,19 +1,27 @@
 const express = require("express");
 const app = express();
-const PORT = 5000;
 
-const GCLOUD_PROJECT_ID = "feast-finder";
-const KEY_FILE_PATH = "./key.json";
+require('custom-env').env(true)
+const PORT = parseInt(process.env.PORT);
 
 const { Firestore } = require('@google-cloud/firestore');
-let settings = { projectId: GCLOUD_PROJECT_ID, keyFilename: KEY_FILE_PATH };
+let settings = {};
+settings.projectId = process.env.GCLOUD_PROJECT;
+if (process.env.NODE_ENV === "development") {
+    settings.keyFilename = process.env.GCLOUD_KEY_PATH
+} else if (process.env.NODE_ENV === "production") {
+    settings.credentials = {
+        client_email: process.env.GCLOUD_SERVICE_ACCOUNT_EMAIL,
+        private_key: process.env.GCLOUD_SERVICE_ACCOUNT_KEY
+    }
+}
 const firestore = new Firestore(settings = settings);
 
-app.use(express.static('public'))
-app.use(express.json())
+app.use(express.static('public'));
+app.use(express.json());
 
 // get ingredients in a user's account
-app.get('/get-ingredients', (req, res) => {
+app.get('/api/get-ingredients', (req, res) => {
     firestore.collection("users")
         .where("username", "==", req.query.username).get().then(querySnap => {
             if (querySnap.empty) {
@@ -26,7 +34,7 @@ app.get('/get-ingredients', (req, res) => {
 });
 
 // get all recipes that contain given ingredient
-app.get("/get-recipes", (req, res) => {
+app.get("/api/get-recipes", (req, res) => {
     firestore.collection("recipes")
         .where("ingredients", "array-contains", req.query.ingr).get().then(querySnap => {
             var recipes = {};
@@ -38,7 +46,7 @@ app.get("/get-recipes", (req, res) => {
 });
 
 // add any number of ingredients to user's account
-app.post("/add-ingredients", (req, res) => {
+app.post("/api/add-ingredients", (req, res) => {
     if (req.body.ingredients.length === 0) {
         res.status(200).send("OK");
         return;
@@ -60,7 +68,7 @@ app.post("/add-ingredients", (req, res) => {
 });
 
 // delete a single ingredient from user's account
-app.post("/del-ingredient", (req, res) => {
+app.post("/api/del-ingredient", (req, res) => {
     firestore.collection("users")
         .where("username", "==", req.body.username).get().then(querySnap => {
             if (!querySnap.empty) {

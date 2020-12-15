@@ -19,7 +19,7 @@ class AppComponent extends Component {
 
     // add an ingredient to state
     addIngredient(ingrId, active) {
-        fetch(`http://localhost:5000/get-recipes?ingr=${ingrId}`)
+        fetch(process.env.API_HOST + "/get-recipes?ingr=" + ingrId)
             .then(res => res.json()).then(newRecipesInfo => {
                 this.setState(state => {
                     let ingredients = { ...state.ingredients };
@@ -43,7 +43,7 @@ class AppComponent extends Component {
 
                     if (state.username != null) {
                         // add ingredient to current account in database
-                        fetch("http://localhost:5000/add-ingredients", {
+                        fetch(process.env.API_HOST + "/add-ingredients", {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json'
@@ -96,7 +96,7 @@ class AppComponent extends Component {
             delete ingredients[ingrId];
 
             if (state.username != null) {
-                fetch("http://localhost:5000/del-ingredient", {
+                fetch(process.env.API_HOST + "/del-ingredient", {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -111,7 +111,7 @@ class AppComponent extends Component {
     login(username) {
         this.setState(state => {
             // send current ingredients to database
-            fetch("http://localhost:5000/add-ingredients", {
+            fetch(process.env.API_HOST + "/add-ingredients", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -124,7 +124,7 @@ class AppComponent extends Component {
         });
 
         // retrieve previously saved ingredients for user
-        fetch(`http://localhost:5000/get-ingredients?username=${username}`)
+        fetch(process.env.API_HOST + "/get-ingredients?username=" + username)
             .then(res => res.json()).then(val => {
                 val.ingredients.forEach(ingrId => {
                     this.addIngredient(ingrId, false);
