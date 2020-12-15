@@ -14,6 +14,8 @@ if (process.env.NODE_ENV === "development") {
         client_email: process.env.GCLOUD_SERVICE_ACCOUNT_EMAIL,
         private_key: process.env.GCLOUD_SERVICE_ACCOUNT_KEY
     }
+} else {
+    console.error("Must set NODE_ENV to production or development");
 }
 const firestore = new Firestore(settings = settings);
 
