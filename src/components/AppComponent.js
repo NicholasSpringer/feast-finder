@@ -141,19 +141,26 @@ class AppComponent extends Component {
 
     render() {
         return (
-            <div className={styles["overall-vert-container"]}>
-                <div className={styles["header"]}>
+            <div className={styles["overall-vert"]}>
+                <div className={styles["banner"]}>
                     <img className={styles["logo"]} src={logo} alt="Logo"></img>
-                    <Login username={this.state.username}
+                    <div className={styles["login-div"]}>
+                        {/*<Login username={this.state.username}
                         login={this.login}
-                        logout={this.logout}></Login>
+        logout={this.logout}></Login>*/}
+                    </div>
                 </div>
-                <div className={styles["horiz-container"]}>
-                    <IngredientList ingredients={this.state.ingredients}
-                        addIngredient={this.addIngredient}
-                        toggleIngredient={this.toggleIngredient}
-                        delIngredient={this.delIngredient}></IngredientList>
-                    <RecipeList recipes={this.state.recipes}></RecipeList>
+                <div className={styles["center"]}>
+                    <div className={styles["ingr-panel"]}>
+                        <IngredientList ingredients={this.state.ingredients}
+                            addIngredient={this.addIngredient}
+                            toggleIngredient={this.toggleIngredient}
+                            delIngredient={this.delIngredient}></IngredientList>
+                    </div>
+                    <div className={styles["center-divider"]}></div>
+                    <div className={styles["recipe-panel"]}>
+                        <RecipeList recipes={this.state.recipes}></RecipeList>
+                    </div>
                 </div>
             </div>
         )
