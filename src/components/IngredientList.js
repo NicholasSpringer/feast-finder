@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import styles from "./IngredientList.module.css"
+import styles from "./IngredientList.module.css";
+import miscStyles from "./misc.module.css";
 
 
 class IngredientList extends Component {
@@ -16,10 +17,13 @@ class IngredientList extends Component {
         var ingredients = this.props.ingredients;
         return (
             <div className={styles["ingredient-list"]}>
-                <form className={styles["ingredient-form"]} onSubmit={this.handleAddIngredient}>
-                    <label>Add Ingredient </label>
-                    <input type="text" placeholder="e.g. butter" onChange={this.handleChange} value={this.state.text} />
-                </form>
+                <span className={miscStyles["list-label"]}>Ingredients</span>
+                <div className={styles["ingredient-form"]}>
+                    <form onSubmit={this.handleAddIngredient}>
+                        <input className={styles["ingredient-input"]} type="text" placeholder="e.g. butter" onChange={this.handleChange} value={this.state.text} />
+                    </form>
+                    <span className={styles["plus-sign"]}>+</span>
+                </div>
                 <div className={styles["ingredient-grid"]}>
                     {Object.keys(ingredients).map(ingr => (
                         <div key={`${ingr}`} className={`${styles["ingredient-box"]} ${ingredients[ingr].active ? styles["ingredient-active"] : ""}`}
