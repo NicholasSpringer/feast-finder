@@ -18,7 +18,7 @@
 }
 
 .recipe-grid:before {
-    background: linear-gradient(white, transparent);
+    background: linear-gradient(white, rgba(255, 255, 255, 0));
     content: "";
     display: block;
     height: 30px;
@@ -30,7 +30,7 @@
 }
 
 .recipe-grid:after {
-    background: linear-gradient(transparent, white);
+    background: linear-gradient(rgba(255, 255, 255, 0), white);
     content: "";
     display: block;
     height: 30px;
