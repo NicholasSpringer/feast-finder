@@ -1,5 +1,4 @@
-# FeastFinder 🍱
-
+# 🍅 FeastFinder
 [Try the app here!](https://feast-finder-app.herokuapp.com/)
 
 FeastFinder is a webapp that helps people find new recipes, especially when
