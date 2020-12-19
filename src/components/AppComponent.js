@@ -145,9 +145,9 @@ class AppComponent extends Component {
                 <div className={styles["banner"]}>
                     <img className={styles["logo"]} src={logo} alt="Logo"></img>
                     <div className={styles["login-div"]}>
-                        {/*<Login username={this.state.username}
+                        <Login username={this.state.username}
                         login={this.login}
-        logout={this.logout}></Login>*/}
+                        logout={this.logout}></Login>
                     </div>
                 </div>
                 <div className={styles["center"]}>
@@ -159,7 +159,8 @@ class AppComponent extends Component {
                     </div>
                     <div className={styles["center-divider"]}></div>
                     <div className={styles["recipe-panel"]}>
-                        <RecipeList recipes={this.state.recipes}></RecipeList>
+                        <RecipeList recipes={this.state.recipes}
+                            ingredients={this.state.ingredients}></RecipeList>
                     </div>
                 </div>
             </div>

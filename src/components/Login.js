@@ -15,8 +15,10 @@ class Login extends Component {
             return (
                 <div className={styles["login"]}>
                     <form className={styles["login-form"]} onSubmit={this.handleLogIn}>
-                        <label>Login </label>
-                        <input type="text" placeholder="Username" onChange={this.handleChange} value={this.state.text} />
+                        <label>Login</label>
+                        <input className={styles["login-input"]}
+                            type="text" placeholder="Username" onChange={this.handleChange}
+                            value={this.state.text} />
                     </form>
                 </div>
             );
@@ -25,7 +27,7 @@ class Login extends Component {
         return (
             <div className={styles["login"]}>
                 <form className={styles["login-form"]} onSubmit={this.handleLogOut}>
-                    <label>Welcome, {this.props.username}.</label>
+                    <label>{this.props.username}</label>
                     <button className={styles["logout-button"]} type="submit">Log Out</button>
                 </form>
             </div>

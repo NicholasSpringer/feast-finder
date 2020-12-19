@@ -4,17 +4,40 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    padding: 10px;
+    padding-left: 20px;
 }
 
 .recipe-grid {
     box-sizing: border-box;
-    padding: 10px;
-    margin-top: 20px;
+    padding: 30px 10px;
     display: flex;
     flex-direction: column;
     overflow-y: scroll;
     gap: 15px;
+    width: 100%;
+}
+
+.recipe-grid:before {
+    background: linear-gradient(white, transparent);
+    content: "";
+    display: block;
+    height: 30px;
+    pointer-events: none;
+    position: fixed;
+    margin-top: -30px;
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+.recipe-grid:after {
+    background: linear-gradient(transparent, white);
+    content: "";
+    display: block;
+    height: 30px;
+    pointer-events: none;
+    position: fixed;
+    bottom: 0;
+    margin-top: 10px;
     width: 100%;
 }
 
@@ -26,6 +49,7 @@
     box-shadow: 1px 0px 7px rgba(0, 0, 0, 0.4);
     position: relative;
     border-radius: 20px;
+    z-index: -1;
 }
 
 .recipe-title-banner {

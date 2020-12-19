@@ -5,6 +5,16 @@ import ingrStyles from "./IngredientList.module.css"
 
 class RecipeList extends Component {
     render() {
+        // Display help text if no ingredients added
+        if (Object.keys(this.props.ingredients).length === 0) {
+            return (
+                <div className={styles["recipe-list"]}>
+                    <span className={miscStyles["list-label"]}>Recipes</span>
+                    <span className={miscStyles["help-text"]}>Add an ingredient to see recipes</span>
+                </div>
+            )
+        }
+        // Render recipe list
         var recipes = this.props.recipes;
         return (
             <div className={styles["recipe-list"]}>
