@@ -19,7 +19,7 @@ class AppComponent extends Component {
 
     // add an ingredient to state
     addIngredient(ingrId, active) {
-        fetch(location.protocol + process.env.API_HOST + "/get-recipes?ingr=" + ingrId)
+        fetch(`${location.protocol}//${process.env.API_HOST}/get-recipes?ingr=${ingrId}`)
             .then(res => res.json()).then(newRecipesInfo => {
                 this.setState(state => {
                     let ingredients = { ...state.ingredients };
@@ -43,7 +43,7 @@ class AppComponent extends Component {
 
                     if (state.username != null) {
                         // add ingredient to current account in database
-                        fetch(location.protocol + process.env.API_HOST + "/add-ingredients", {
+                        fetch(`${location.protocol}//${process.env.API_HOST}/add-ingredients`, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json'
@@ -96,7 +96,7 @@ class AppComponent extends Component {
             delete ingredients[ingrId];
 
             if (state.username != null) {
-                fetch(location.protocol + process.env.API_HOST + "/del-ingredient", {
+                fetch(`${location.protocol}//${process.env.API_HOST}/del-ingredient`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -111,7 +111,7 @@ class AppComponent extends Component {
     login(username) {
         this.setState(state => {
             // send current ingredients to database
-            fetch(location.protocol + process.env.API_HOST + "/add-ingredients", {
+            fetch(`${location.protocol}//${process.env.API_HOST}/add-ingredients`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -124,7 +124,7 @@ class AppComponent extends Component {
         });
 
         // retrieve previously saved ingredients for user
-        fetch(location.protocol + process.env.API_HOST + "/get-ingredients?username=" + username)
+        fetch(`${location.protocol}//${process.env.API_HOST}/get-ingredients?username=${username}`)
             .then(res => res.json()).then(val => {
                 val.ingredients.forEach(ingrId => {
                     this.addIngredient(ingrId, false);
@@ -146,8 +146,8 @@ class AppComponent extends Component {
                     <img className={styles["logo"]} src={logo} alt="Logo"></img>
                     <div className={styles["login-div"]}>
                         <Login username={this.state.username}
-                        login={this.login}
-                        logout={this.logout}></Login>
+                            login={this.login}
+                            logout={this.logout}></Login>
                     </div>
                 </div>
                 <div className={styles["center"]}>
