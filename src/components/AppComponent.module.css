@@ -10,7 +10,7 @@
     position: relative;
     flex: 0 0 65px;
     width: 100%;
-    /*background: rgb(173, 216, 230);*/
+    min-width: 1000;
 }
 
 .logo {
@@ -23,12 +23,11 @@
 
 .login-div {
     position: absolute;
-    width: 200px;
+    width: 250px;
     height: 50px;
     margin: 5px;
     right: 0;
     top: 0;
-    /*background: rgb(255, 208, 0);*/
 }
 
 .center {
@@ -48,7 +47,6 @@
     width: 40%;
     left: 0;
     top: 0;
-    /*background: rgba(24, 20, 255, 0.514);*/
 }
 
 .recipe-panel {
@@ -58,7 +56,6 @@
     width: 60%;
     right: 0;
     top: 0;
-    /*background: rgba(90, 190, 23, 0.514);*/
 }
 
 .center-divider {
