@@ -4,3 +4,9 @@
     font-size: xx-large;
     margin-bottom: 0;
 }
+
+.help-text {
+    margin: auto;
+    margin-top: 18%;
+    font-size: large;
+}
